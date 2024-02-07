@@ -1,18 +1,14 @@
 package com.programmingtechie.inventoryservice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Setter;
 
-@Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class InventoryResponse {
+public class InventoryResponse extends ParentResponse {
     
-    private String skuCode;
-    private Boolean isInStock;
+	@JsonProperty("lc")
+    private List<InventoryDto> inventoryList;
 }

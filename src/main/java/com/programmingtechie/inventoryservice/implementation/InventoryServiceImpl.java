@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.programmingtechie.inventoryservice.dto.InventoryDto;
 import com.programmingtechie.inventoryservice.dto.InventoryResponse;
 import com.programmingtechie.inventoryservice.repository.InventoryRepository;
 import com.programmingtechie.inventoryservice.service.InventoryService;
@@ -27,18 +28,25 @@ public class InventoryServiceImpl implements InventoryService {
      */
 	@Override
     @Transactional(readOnly = true)
-    public List<InventoryResponse> isInStock(List<String> skuCode){
+    public InventoryResponse isInStock(List<String> skuCode){
 
         // Retrieve inventory items from the repository based on the provided SKU codes
-        return inventoryRepository.findBySkuCodeIn(skuCode)
+        List<InventoryDto> inventoryList = inventoryRepository.findBySkuCodeIn(skuCode)
             // Convert the list of Inventory objects to a list of InventoryResponse objects
             .stream()
             .map(inventory -> 
                 // Map each Inventory object to an InventoryResponse object
-                InventoryResponse.builder()
+            	InventoryDto.builder()
                     .skuCode(inventory.getSkuCode())
                     .isInStock(inventory.getQuantity() > 0)
                     .build()
             ).toList();
+        
+        InventoryResponse response = new InventoryResponse();
+        response.setMessageCode("2000");
+        response.setMessage("Records fetched successfully.");
+        response.setInventoryList(inventoryList);
+        
+        return response;
     }
 }
