@@ -2,6 +2,7 @@ package com.programmingtechie.inventoryservice.implementation;
 
 import java.util.List;
 
+import com.programmingtechie.inventoryservice.enums.InventoryEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,8 +44,8 @@ public class InventoryServiceImpl implements InventoryService {
             ).toList();
         
         InventoryResponse response = new InventoryResponse();
-        response.setMessageCode("2000");
-        response.setMessage("Records fetched successfully.");
+        response.setMessageCode(InventoryEnum.DATA_FETCHED_SUCCESSFULLY.getSuccessCode());
+        response.setMessage(InventoryEnum.DATA_FETCHED_SUCCESSFULLY.getMessage());
         response.setInventoryList(inventoryList);
         
         return response;
